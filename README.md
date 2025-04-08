@@ -7,6 +7,10 @@ Python UV environment with the main dependencies for computer vision.
 - [UV](https://docs.astral.sh/uv/getting-started/installation/)
 - Python 3.12 (can be installed with `uv python install 3.12`)
 
+### Windows / Linux
+
+- Run PyTorch on GPU: [CUDA](https://developer.nvidia.com/cuda-downloads) >= 12.6
+
 ## Setup
 
 ```bash
