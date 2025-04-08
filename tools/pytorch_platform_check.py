@@ -17,6 +17,6 @@ def get_device():
 
     return device
 
-if name == "__main__":
+if __name__ == "__main__":
     device = get_device()
     print(f"Using device: {device}")
