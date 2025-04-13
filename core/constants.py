@@ -1,0 +1,6 @@
+DATASET_MSKCC = "MSKCC"
+DATASET_TCGA = "TCGA"
+
+CT_FOLDER_PATH = "data/CT"
+SEG_FOLDER_PATH = "data/Segmentation"
+YOLO_BOXES_FOLDER_PATH = "data/yolo_boxes"
