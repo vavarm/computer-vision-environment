@@ -37,7 +37,7 @@ def visualize_segmentation_with_boxes(file_id):
 
     # Check if the CT and segmentation files exist
     if not ct_file_path.exists() or not seg_file_path.exists():
-        print(f"Error: Could not find CT or segmentation files for {id}.")
+        print(f"Error: Could not find CT or segmentation files for {file_id}.")
         return
 
     # Load CT and segmentation data
