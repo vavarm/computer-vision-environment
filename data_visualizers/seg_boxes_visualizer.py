@@ -31,8 +31,9 @@ class CTViewerApp:
 
         # File loading
         ct_dir = Path(CT_FOLDER_PATH) / DATASET_MSKCC
-        self.nii_files = sorted(ct_dir.glob("*.nii"))
-        self.file_ids = [f.stem for f in self.nii_files]
+        self.nii_files = sorted(ct_dir.glob("*.nii*"))  # Match both .nii and .nii.gz files
+        print(self.nii_files[0].suffix)
+        self.file_ids = [f.stem.replace('.nii', '') if f.name.endswith('.nii.gz') else f.stem for f in self.nii_files]
         for fid in self.file_ids:
             self.listbox.insert(tk.END, fid)
 
@@ -58,8 +59,14 @@ class CTViewerApp:
 
     def load_file(self, file_id):
         self.file_id = file_id
-        ct_path = Path(CT_FOLDER_PATH) / DATASET_MSKCC / f"{file_id}.nii"
-        seg_path = Path(SEG_FOLDER_PATH) / DATASET_MSKCC / f"{file_id}.nii"
+        ct_path = Path(CT_FOLDER_PATH) / DATASET_MSKCC / f"{file_id}.nii.gz"  # Try .nii.gz first
+        if not ct_path.exists():
+            ct_path = Path(CT_FOLDER_PATH) / DATASET_MSKCC / f"{file_id}.nii"  # If .nii.gz is not found, try .nii
+
+        seg_path = Path(SEG_FOLDER_PATH) / DATASET_MSKCC / f"{file_id}.nii.gz"  # Try .nii.gz first
+        if not seg_path.exists():
+            seg_path = Path(SEG_FOLDER_PATH) / DATASET_MSKCC / f"{file_id}.nii"  # If .nii.gz is not found, try .nii
+
         self.label_dir = Path(YOLO_BOXES_FOLDER_PATH)
 
         if not ct_path.exists() or not seg_path.exists():
@@ -73,7 +80,7 @@ class CTViewerApp:
         # Redraw slider
         if self.slice_slider:
             self.slider_ax.remove()
-        self.slider_ax = self.fig.add_axes([0.2, 0.05, 0.6, 0.03])
+        self.slider_ax = self.fig.add_axes((0.2, 0.05, 0.6, 0.03))
         self.slice_slider = Slider(self.slider_ax, 'Slice', 0, self.num_slices - 1, valinit=0, valstep=1)
         self.slice_slider.on_changed(self.update_slice)
 
