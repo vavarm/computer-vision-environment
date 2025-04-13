@@ -7,6 +7,21 @@ from skimage.measure import regionprops, label
 from core.constants import SEG_FOLDER_PATH, DATASET_MSKCC, YOLO_BOXES_FOLDER_PATH
 
 def generate_yolo_box(region, shape):
+    """
+    Generate a YOLO-format bounding box from a labeled region.
+
+    Parameters:
+    -----------
+    region : skimage.measure._regionprops.RegionProperties
+        The region object representing a connected component.
+    shape : tuple
+        The shape (height, width) of the image slice.
+
+    Returns:
+    --------
+    tuple
+        A tuple (center_x, center_y, width, height) in normalized YOLO format.
+    """
     minr, minc, maxr, maxc = region.bbox
     center_x = (minc + maxc) / 2 / shape[1]
     center_y = (minr + maxr) / 2 / shape[0]
@@ -16,6 +31,16 @@ def generate_yolo_box(region, shape):
 
 
 def process_segmentation_file(seg_path, output_root):
+    """
+    Process a single NIfTI segmentation file and extract YOLO-format bounding boxes per slice.
+
+    Parameters:
+    -----------
+    seg_path : Path or str
+        Path to the segmentation file (.nii or .nii.gz).
+    output_root : Path or str
+        Directory where the generated YOLO .txt files will be saved.
+    """
     seg_path = Path(seg_path)
     seg = nib.load(str(seg_path))
     seg_data = seg.get_fdata()
@@ -35,11 +60,22 @@ def process_segmentation_file(seg_path, output_root):
                 props = regionprops(labeled)
                 for region in props:
                     center_x, center_y, width, height = generate_yolo_box(region, image_shape)
-                    class_id = int(slice_data[tuple(region.coords[0])])  # Use the value of one voxel as class
+                    class_id = int(slice_data[tuple(region.coords[0])])  # Use voxel value as class label
                     f.write(f"{class_id} {center_x:.6f} {center_y:.6f} {width:.6f} {height:.6f}\n")
         print(f"Generated labels for slice {z} -> {label_file}")
 
+
 def process_segmentation_folder(folder, output_root):
+    """
+    Process all segmentation files in a folder and generate YOLO bounding box files.
+
+    Parameters:
+    -----------
+    folder : Path or str
+        Directory containing segmentation NIfTI files.
+    output_root : Path or str
+        Directory to save the generated YOLO-format .txt files.
+    """
     seg_folder_path = Path(folder)
 
     if not seg_folder_path.exists():
@@ -53,8 +89,8 @@ def process_segmentation_folder(folder, output_root):
 if __name__ == "__main__":
 
     # Generate YOLO box files for one segmentation
-    #seg_path = Path(SEG_BASE_PATH, DATASET, f"{FILENAME}.nii.gz")
-    #process_segmentation_file(seg_path)
+    #_seg_path = Path(SEG_BASE_PATH, DATASET, f"{FILENAME}.nii.gz")
+    #process_segmentation_file(_seg_path)
 
     # Generate YOLO box files for all segmentations of a class
     _seg_folder_path = Path(SEG_FOLDER_PATH, DATASET_MSKCC)
