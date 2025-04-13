@@ -4,6 +4,8 @@ from matplotlib.widgets import Slider
 import matplotlib.patches as patches
 import nibabel as nib
 import numpy as np
+import tkinter as tk
+from tkinter import simpledialog
 
 from core.constants import YOLO_BOXES_FOLDER_PATH, CT_FOLDER_PATH, SEG_FOLDER_PATH, DATASET_MSKCC
 from utils.colors import generate_color_from_id
@@ -63,7 +65,6 @@ def visualize_segmentation_with_boxes(file_id):
         z = int(z)
         ax.clear()
         ax.set_title(f"Slice {z}")
-        ax.imshow(ct_data[:, :, z], cmap='gray')  # Display CT image for the current slice
 
         # Display grayscale CT image
         ax.imshow(ct_data[:, :, z], cmap='gray')
@@ -125,13 +126,14 @@ def visualize_segmentation_with_boxes(file_id):
 
 
 if __name__ == '__main__':
-    _basename = "330680"
+    # Tkinter root setup for file ID input
+    root = tk.Tk()
+    root.withdraw()  # Hide main window
 
-    _label_dir = Path(YOLO_BOXES_FOLDER_PATH)
-    _filename = f"{_basename}.nii.gz"
-    _ct_path = Path(CT_FOLDER_PATH, DATASET_MSKCC)
-    _ct_file_path = Path(_ct_path, _filename)
-    _seg_path = Path(SEG_FOLDER_PATH, DATASET_MSKCC)
-    _seg_file_path = Path(_seg_path, _filename)
-    # Visualize segmentation with boxes
-    visualize_segmentation_with_boxes(_ct_file_path, _seg_file_path, _label_dir, _basename)
+    # Ask user for file identifier
+    file_id = simpledialog.askstring("Input", "Enter the file identifier (e.g., patient ID):")
+
+    if file_id:
+        visualize_segmentation_with_boxes(file_id)
+    else:
+        print("No file identifier provided. Exiting.")
