@@ -6,6 +6,7 @@ Python UV environment with the main dependencies for computer vision.
 
 - [UV](https://docs.astral.sh/uv/getting-started/installation/)
 - Python 3.12 (can be installed with `uv python install 3.12`)
+- PyCharm `Recommended` or VSCodium (with Python extensions)
 
 ### Windows / Linux
 
