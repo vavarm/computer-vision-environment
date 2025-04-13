@@ -5,7 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "nibabel>=5.3.2",
     "polars>=1.26.0",
+    "scikit-image>=0.25.2",
+    "scikit-learn>=1.6.1",
     "torch>=2.6.0",
     "torchvision>=0.21.0",
     "ultralytics>=8.3.102",
