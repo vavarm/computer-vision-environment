@@ -1,21 +1,24 @@
 # Python-generated files
-__pycache__/
+__pycache__
 *.py[oc]
-build/
-dist/
-wheels/
+build
+dist
+wheels
 *.egg-info
 
 # Virtual environments
 .venv
 
 # IDE
-.idea/
-.vscode/
+.idea
+.vscode
 
 # Chore
-.history/
+.history
 
-# Personal files
-src/
-data/
+# Datasets
+/data
+/yolo
+
+# YOLO
+/runs
