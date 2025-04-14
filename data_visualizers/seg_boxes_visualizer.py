@@ -114,7 +114,7 @@ class CTViewerApp:
                     y1 = (cy - h / 2) * h_img
                     x2 = (cx + w / 2) * w_img
                     y2 = (cy + h / 2) * h_img
-                    color = generate_color_from_id(class_id)
+                    color = generate_color_from_id(class_id+1)
                     rect = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=1.5, edgecolor=color, facecolor='none')
                     self.ax.add_patch(rect)
                     self.ax.text(x1, y1 - 2, f"Class {int(class_id)}", color=color, fontsize=8)

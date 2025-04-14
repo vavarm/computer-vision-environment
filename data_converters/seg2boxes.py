@@ -60,7 +60,7 @@ def process_segmentation_file(seg_path, output_root):
                 props = regionprops(labeled)
                 for region in props:
                     center_x, center_y, width, height = generate_yolo_box(region, image_shape)
-                    class_id = int(slice_data[tuple(region.coords[0])])  # Use voxel value as class label
+                    class_id = int(slice_data[tuple(region.coords[0])]) - 1  # Use voxel value as class label
                     f.write(f"{class_id} {center_x:.6f} {center_y:.6f} {width:.6f} {height:.6f}\n")
         print(f"Generated labels for slice {z} -> {label_file}")
 
