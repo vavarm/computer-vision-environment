@@ -31,3 +31,9 @@ uv run [filename]
 ```bash
 uv add [package]
 ```
+
+### Run Tensorboard
+
+```bash
+tensorboard --logdir runs
+```
